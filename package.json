@@ -1,0 +1,19 @@
+{
+  "name": "autohome",
+  "version": "1.0.0",
+  "description": "jzi's home automation",
+  "main": "index.js",
+  "author": "Jonas Zipprick",
+  "license": "ISC",
+  "scripts": {
+    "debug": "DEBUG=\"*\" node server.js"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1"
+  },
+  "dependencies": {
+    "express": "4.16.2",
+    "gulp-pug": "^3.3.0",
+    "philips-hue": "1.2.0"
+  }
+}

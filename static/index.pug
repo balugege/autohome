@@ -1,0 +1,14 @@
+link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css", integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy", crossorigin="anonymous")
+link(rel="stylesheet", href="style.css")
+script(src="client.js")
+
+.container.text-center
+    h1 A U T O H O M E
+    .row#range
+        .col-md-12
+            input(type="range", onchange="updateBrightness(this.value)")#brightness.container-fluid
+    .row#buttons
+        .col-md-6
+            input(type="button", value="on", onclick="updatePower(\"on\")")#power-on.container-fluid
+        .col-md-6
+            input(type="button", value="off", onclick="updatePower(\"off\")")#power-off.container-fluid
