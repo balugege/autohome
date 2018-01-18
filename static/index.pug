@@ -3,12 +3,9 @@ link(rel="stylesheet", href="style.css")
 script(src="client.js")
 
 .container.text-center
-    h1 A U T O H O M E
-    .row#range
+    .row
         .col-md-12
-            input(type="range", onchange="updateBrightness(this.value)")#brightness.container-fluid
-    .row#buttons
-        .col-md-6
-            input(type="button", value="on", onclick="updatePower(\"on\")")#power-on.container-fluid
-        .col-md-6
-            input(type="button", value="off", onclick="updatePower(\"off\")")#power-off.container-fluid
+            p#clock 00:00
+    .row
+        .col-md-12
+            p#calendar

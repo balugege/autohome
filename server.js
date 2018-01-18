@@ -1,28 +1,40 @@
 const express = require('express');
 const Hue = require('philips-hue');
+require('./calendar');
 
 let hue = new Hue();
 let app = express();
-
 let hueConfig = process.cwd() + '/.philips-hue.json';
+let calendarAuth;
 
 
 // init device connections
-
 initHue();
 
 function initHue() {
-    console.log("connecting to hue bridge...");
+    console.log("connecting to hue ...");
 
     hue.login(hueConfig)
         .then((conf) => {
-            console.log("hue up!");
+            console.log("hue up");
         })
         .catch((err) => {
             console.log(err);
             setTimeout(initHue, 1000)
         });
 }
+
+initCalendar();
+
+function initCalendar() {
+    console.log("connecting to callendar ...");
+
+    authorizeFromFile((oAuth) => {
+        console.log("callendar up");
+        calendarAuth = oAuth;
+    });
+}
+
 
 app.use(express.static('static'));
 
@@ -51,6 +63,13 @@ app.post('/lights', (req, res) => {
     });
 
     res.sendStatus(200);
+});
+
+app.get('/calendar', (req, res) => {
+    let numEvents = req.query.numEvents | 1;
+    listEvents(calendarAuth, numEvents, (events) => {
+        res.send(JSON.stringify(events));
+    });
 });
 
 app.listen(3000);
