@@ -105,19 +105,41 @@ function storeToken(token) {
  */
 listEvents = function (auth, numEvents, callback) {
     let calendar = google.calendar('v3');
-    let items;
-    calendar.events.list({
+    let items = [];
+    let args = {
         auth: auth,
-        calendarId: 'primary',
+        calendarId: 'primary', // TODO we want all calendars not only primary
         timeMin: (new Date()).toISOString(),
         maxResults: numEvents,
         singleEvents: true,
         orderBy: 'startTime'
-    }, function (err, response) {
+    };
+
+    calendar.events.list(args, function (err, response) {
         if (err) {
-            console.log('The API returned an error: ' + err);
+            console.log('Calendar: ' + err);
             return;
         }
-        callback(response.items);
+        items = items.concat(response.items);
+
+        args.calendarId = "ikprimh1qq2ed51adikebfhierumhj96@import.calendar.google.com";
+        calendar.events.list(args, function (err2, response2) {
+            if (err2) {
+                console.log('Calendar: ' + err);
+                return;
+            }
+            items = items.concat(response2.items);
+            items.sort((a, b) => {
+                let dateA = new Date(a.start.dateTime);
+                let dateB = new Date(b.start.dateTime);
+                if (dateA < dateB) return -1;
+                if (dateA > dateB) return 1;
+                if (dateA === dateB) return 0;
+            });
+
+            callback(items);
+        });
     });
+
+
 };

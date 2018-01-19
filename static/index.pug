@@ -2,10 +2,13 @@ link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-bet
 link(rel="stylesheet", href="style.css")
 script(src="client.js")
 
-.container.text-center
-    .row
+
+.container-fluid.text-nowrap
+    .row.text-center
         .col-md-12
-            p#clock 00:00
+            p#clock ...
     .row
-        .col-md-12
-            p#calendar
+        .col-md-12#calendar.text-center
+            span#event-name
+            span#event-time
+
