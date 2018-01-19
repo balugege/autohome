@@ -1,6 +1,6 @@
 let oldBrightness = null;
 let currentEvent = null;
-let charLimit = 35;
+let charLimit = 30;
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("clock").innerHTML = timeNow();
@@ -24,10 +24,10 @@ function timeNow() {
 function deltaTCalendar() {
     if (currentEvent !== null) {
         let deltaMs = new Date(currentEvent.start.dateTime) - new Date();
-        let deltaH = Math.round(deltaMs / (1000 * 60 * 60));
-        let deltaM = Math.round((deltaMs / (1000 * 60)) - deltaH * 60);
-        let deltaS = Math.round((deltaMs / (1000)) - deltaM * 60);
-        return deltaH.toString() + "H " + deltaM + "m " + (deltaH === 0 ? deltaS + "s" : "");
+        let deltaH = Math.floor(deltaMs / (1000 * 60 * 60));
+        let deltaM = Math.floor((deltaMs / (1000 * 60)) - (deltaH * 60));
+        let deltaS = Math.floor((deltaMs / (1000)) - deltaM * 60);
+        return (deltaH === 0 ? "" : deltaH.toString() + "H ") + deltaM + "m " + (deltaH === 0 ? deltaS + "s" : "");
     } else {
         return "...";
     }
