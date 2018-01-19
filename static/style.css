@@ -4,7 +4,7 @@ body {
 }
 
 #clock {
-    font-size: 35vw;
+    font-size: 30vw;
 }
 
 #calendar {
@@ -16,5 +16,5 @@ body {
 }
 
 #event-time {
-    font-size: 5vw;
+    font-size: 4vw;
 }

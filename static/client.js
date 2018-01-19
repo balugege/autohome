@@ -1,6 +1,6 @@
 let oldBrightness = null;
 let currentEvent = null;
-let charLimit = 40;
+let charLimit = 35;
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("clock").innerHTML = timeNow();
