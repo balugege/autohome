@@ -2,15 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const basicAuth = require('express-basic-auth');
 const Hue = require('philips-hue');
+const { exec } = require('child_process');
 require('./calendar');
 
 let hue = new Hue();
 let app = express();
-
-
 let hueConfig = process.cwd() + '/.philips-hue.json';
 let calendarAuth;
-
 
 // init device connections
 initHue();
@@ -50,6 +48,10 @@ app.post('/lights/:id', (req, res) => {
 
 // controll all reachable lights
 app.post('/lights', (req, res) => {
+    postLights(req);
+    res.sendStatus(200);
+});
+function postLights(req){
     hue.getLights().then(function (lights) {
         for (let id in lights) {
             if (lights.hasOwnProperty(id)) {
@@ -61,9 +63,40 @@ app.post('/lights', (req, res) => {
         }
     }).catch(function (err) {
         console.error(err.stack || err);
-        res.sendStatus(500);
     });
+}
 
+// controll the pi's screen
+app.post('/screen', (req, res) => {
+    postScreen(req);
+    res.sendStatus(200)
+});
+
+function postScreen(req){
+    if(req.get("power") === "on") {
+        console.log("turn screen on");
+        exec("vcgencmd display_power 1", handleError);
+    } else {
+        console.log("turn screen off");
+        exec("vcgencmd display_power 0", handleError);
+    }
+
+    function handleError(error, stdout, stderr) {
+        if(error) {
+            console.log("error: " + error)
+        }
+        if(stdout) {
+            console.log("stdout: " + stdout)
+        }
+        if(stderr) {
+            console.log("stderr: " + stderr)
+        }
+    }
+}
+
+app.post('/', (req, res) => {
+    postLights(req);
+    postScreen(req);
     res.sendStatus(200);
 });
 
