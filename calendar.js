@@ -1,7 +1,7 @@
-let fs = require('fs');
-let readline = require('readline');
-let google = require('googleapis');
-let googleAuth = require('google-auth-library');
+const fs = require('fs');
+const readline = require('readline');
+const google = require('googleapis');
+const googleAuth = require('google-auth-library');
 
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/calendar-nodejs-quickstart.json

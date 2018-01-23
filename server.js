@@ -1,9 +1,13 @@
 const express = require('express');
+const fs = require('fs');
+const basicAuth = require('express-basic-auth');
 const Hue = require('philips-hue');
 require('./calendar');
 
 let hue = new Hue();
 let app = express();
+
+
 let hueConfig = process.cwd() + '/.philips-hue.json';
 let calendarAuth;
 
@@ -13,7 +17,6 @@ initHue();
 
 function initHue() {
     console.log("connecting to hue ...");
-
     hue.login(hueConfig)
         .then((conf) => {
             console.log("hue up");
@@ -36,7 +39,6 @@ function initCalendar() {
 }
 
 
-app.use(express.static('static'));
 
 // controll a specific light
 app.post('/lights/:id', (req, res) => {
@@ -72,7 +74,16 @@ app.get('/calendar', (req, res) => {
     });
 });
 
-app.listen(3000);
+fs.readFile('.basic_auth.json', function processClientSecrets(err, config) {
+    if (err) {
+        console.log('Error loading basic auth file: ' + err);
+        return;
+    }
+
+    app.use(basicAuth(JSON.parse(config)));
+    app.use(express.static('static'));
+    app.listen(3000);
+});
 
 function setPower(id, power) {
     if (power === "on") {
